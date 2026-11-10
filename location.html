@@ -1,0 +1,66 @@
+const LIVE_ENDPOINT = "";
+        const LIVE_MAP_URL = "";   /* optional: link to a live map (e.g. Google Maps shared location / tracker page) */
+        const fill = (s, o) => s.replace(/\{(\w+)\}/g, (_, k) => o[k]);
+        let live = { buses: [], at: Date.now(), ok: true }, lvRoute = "all", lvSig = "";
+        const DEMO = [{ id: "b1", no: 1, route: "r1", i: 1, p: .3 }, { id: "b2", no: 2, route: "r1", i: 6, p: .6 }, { id: "b3", no: 3, route: "r2", i: 1, p: .2 }, { id: "b4", no: 4, route: "r1r", i: 3, p: .5 }, { id: "b5", no: 5, route: "r2r", i: 0, p: .1 }].map(b => ({ ...b, dw: 0 }));
+        if (!LIVE_ENDPOINT) live.buses = DEMO;
+        const lvName = b => b.label || `${t("liveBus")} ${nf(String(b.no))}`;
+        function lvStatus(b, r) {
+            const a = L(r.stops[b.i]);
+            return b.i >= r.stops.length - 1 ? fill(t("liveEnd"), { s: a }) : b.p < .15 ? fill(t("liveAt"), { s: a }) : fill(t("liveBw"), { a, b: L(r.stops[b.i + 1]) })
+        }
+        function demoStep() {
+            DEMO.forEach(b => {
+                const n = ROUTES.find(r => r.id === b.route).stops.length;
+                if (b.i >= n - 1) { if (++b.dw > 3) { b.i = 0; b.p = 0; b.dw = 0 } return }
+                b.p += .06; if (b.p >= 1) { b.p = 0; b.i++ }
+            }); live.at = Date.now(); refreshLive()
+        }
+        function normFeed(j) {
+            return (j.buses || []).map(b => {
+                const r = ROUTES.find(x => x.id === b.route); if (!r) return null;
+                const i = typeof b.stop === "number" ? b.stop : r.stops.findIndex(x => x === S[b.stop]); if (i < 0) return null;
+                return { id: String(b.id), no: b.no ?? b.id, label: b.label, route: b.route, i: Math.min(i, r.stops.length - 1), p: Math.max(0, Math.min(.99, +b.progress || 0)) }
+            }).filter(Boolean)
+        }
+        async function pollLive() {
+            try {
+                const r = await fetch(LIVE_ENDPOINT, { cache: "no-store" }); if (!r.ok) throw new Error(r.status);
+                live.buses = normFeed(await r.json()); live.at = Date.now(); live.ok = true
+            } catch (e) { live.ok = false }
+            refreshLive()
+        }
+        function renderLive() {
+            const tabs = $("#lvTabs"), box = $("#lvList"); tabs.innerHTML = ""; box.innerHTML = "";
+            [["all", t("allRoutes")], ...ROUTES.map(r => [r.id, L(r.name).split(":")[0]])].forEach(([k, n]) => {
+                const x = el("button", "chip", esc(n)); x.type = "button"; x.setAttribute("aria-pressed", k === lvRoute); x.onclick = () => { lvRoute = k; renderLive() }; tabs.append(x)
+            });
+            const busSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="14" rx="3"/><path d="M4 11h16M7 17v3M17 17v3"/><circle cx="8" cy="14" r=".7"/><circle cx="16" cy="14" r=".7"/></svg>';
+            ROUTES.filter(r => lvRoute === "all" || r.id === lvRoute).forEach(r => {
+                const bs = live.buses.filter(b => b.route === r.id), c = el("article", "card lvc"); c.dataset.r = r.id;
+                c.innerHTML = `<div class="lvh"><h3>${esc(L(r.name))}</h3><span class="tag">${fill(t("liveCount"), { n: nf(String(bs.length)) })}</span></div>
+<div class="lvb">${bs.map(b => `<div class="bp" data-id="${esc(b.id)}"><span class="bn">${nf(String(b.no))}</span><span><strong>${esc(lvName(b))}</strong><small></small></span></div>`).join("") || `<p class="meta">${t("liveNone")}</p>`}</div>
+<div class="lvt">${r.stops.map(x => `<div class="lvs"><span class="nm">${esc(L(x))}</span><span class="at"></span></div>`).join("")}${bs.map(b => `<span class="lvm" data-id="${esc(b.id)}" title="${esc(lvName(b))}">${busSvg}<i>${nf(String(b.no))}</i></span>`).join("")}</div>`;
+                box.append(c)
+            });
+            lvSig = lvKey(); updateLive()
+        }
+        const lvKey = () => live.buses.map(b => b.id + b.route).join("|") + "#" + lvRoute + "#" + lang;
+        function refreshLive() { lvKey() !== lvSig ? renderLive() : updateLive() }
+        function updateLive() {
+            const age = Math.max(0, Math.round((Date.now() - live.at) / 1000)), fresh = live.ok && age < 60;
+            $("#lvPill").classList.toggle("off", !fresh); $("#lvPillT").textContent = t(fresh ? "liveOn" : "liveOff");
+            $("#lvUpd").textContent = `${t("liveUpd")}: ` + (age < 5 ? t("liveJust") : age < 60 ? fill(t("liveSec"), { n: nf(String(age)) }) : fill(t("liveMin"), { n: nf(String(Math.floor(age / 60))) }));
+            $("#lvSample").style.display = LIVE_ENDPOINT ? "none" : ""; $("#lvMap").style.display = LIVE_MAP_URL ? "" : "none"; $("#lvMap").href = LIVE_MAP_URL || "#";
+            $$(".lvc").forEach(c => {
+                const r = ROUTES.find(x => x.id === c.dataset.r), rows = $$(".lvs", c), at = rows.map(() => []);
+                live.buses.filter(b => b.route === r.id).forEach(b => {
+                    const m = $(`.lvm[data-id="${CSS.escape(b.id)}"]`, c); if (m) m.style.setProperty("--p", b.i + b.p);
+                    const sm = $(`.bp[data-id="${CSS.escape(b.id)}"] small`, c); if (sm) sm.textContent = lvStatus(b, r);
+                    if (b.p < .15 || b.i >= r.stops.length - 1) at[b.i].push(lvName(b))
+                });
+                rows.forEach((row, i) => { $(".at", row).innerHTML = at[i].map(n => `<span class="ab">${esc(n)}</span>`).join(""); row.classList.toggle("has", at[i].length > 0) })
+            })
+        }
+        if (LIVE_ENDPOINT) { pollLive(); setInterval(pollLive, 10000) } else setInterval(demoStep, 2000);
+        setInterval(updateLive, 1000);

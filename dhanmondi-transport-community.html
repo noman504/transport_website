@@ -282,7 +282,7 @@
             }
         }
 
-        @media(min-width:1180px) {
+        @media(min-width:1440px) {
             .nav {
                 display: grid;
                 grid-template-columns: 1fr auto 1fr
@@ -303,6 +303,21 @@
 
             #menu {
                 display: none
+            }
+        }
+
+        /* longer menu: compact layout on mid-size desktops, hamburger below 1440px */
+        @media(min-width:1440px) and (max-width:1719px) {
+            .nav {
+                grid-template-columns: auto 1fr auto
+            }
+
+            .links {
+                justify-self: center
+            }
+
+            .links a {
+                padding: .5rem .6rem
             }
         }
 
@@ -822,76 +837,177 @@
             }
         }
 
-        .ex {
+        /* exam timings */
+        .exg {
             display: grid;
-            grid-template-columns: 76px 1fr;
-            gap: 1rem;
-            align-items: center;
-            margin-bottom: .8rem;
+            gap: 1rem
+        }
+
+        @media(min-width:760px) {
+            .exg {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        .exc {
+            padding: 0;
+            overflow: hidden;
             transition: transform .2s, border-color .2s
         }
 
-        .ex:hover {
-            transform: translateX(6px);
+        .exc:hover {
+            transform: translateY(-3px);
+            border-color: var(--blue)
+        }
+
+        .exc.fin:hover {
             border-color: var(--green)
         }
 
-        .ex.past {
-            opacity: .6
-        }
-
-        .ex .d {
-            border-radius: 16px;
-            background: var(--blue);
-            color: var(--on-blue);
-            text-align: center;
-            padding: .5rem 0;
-            font: 800 1.8rem/1 Sora, sans-serif
-        }
-
-        .ex .d small {
-            display: block;
-            font: 600 .8rem "Hind Siliguri", sans-serif;
-            margin-top: .2rem
-        }
-
-        .ex .info {
+        .exh {
             display: flex;
+            align-items: center;
+            justify-content: space-between;
             flex-wrap: wrap;
-            gap: .2rem 1rem
+            gap: .5rem;
+            padding: 1rem 1.2rem;
+            background: var(--blue);
+            color: var(--on-blue)
+        }
+
+        .exc.fin .exh {
+            background: var(--green)
+        }
+
+        .exh h3 {
+            font-size: 1.3rem
+        }
+
+        .exh .tag {
+            background: rgba(255, 255, 255, .55);
+            color: #0b2638;
+            margin: 0
+        }
+
+        .exs {
+            list-style: none;
+            padding: 1rem 1.2rem 1.2rem;
+            margin: 0;
+            display: grid;
+            gap: .7rem
+        }
+
+        .exs li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: .3rem 1rem;
+            padding: .75rem 1rem;
+            border-radius: 14px;
+            background: var(--bg);
+            border: 2px solid var(--line)
+        }
+
+        .exs li span {
+            color: var(--ink);
+            font-weight: 600;
+            font-size: 1rem
+        }
+
+        .exs li.out {
+            border-left: 6px solid var(--blue)
+        }
+
+        .exs li.ret {
+            border-left: 6px solid var(--green)
+        }
+
+        .exs li b {
+            font: 800 1.2rem Sora, "Hind Siliguri", sans-serif;
+            font-variant-numeric: tabular-nums
         }
 
         .gal {
             display: grid;
-            gap: .7rem;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            margin-top: 1rem
+            gap: 1.1rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            margin-top: 1.4rem
         }
 
         .gal>* {
             aspect-ratio: 4/3;
             border: 0;
-            border-radius: 16px;
+            border-radius: 24px;
             overflow: hidden;
             position: relative;
             padding: 0;
-            background: linear-gradient(135deg, var(--blue), var(--green))
+            background: linear-gradient(135deg, var(--blue), var(--green));
+            box-shadow: var(--shadow);
+            animation: rise .6s cubic-bezier(.2, .7, .2, 1) both;
+            animation-delay: calc(var(--i, 0)*90ms);
+            transition: transform .35s cubic-bezier(.2, .7, .2, 1), box-shadow .35s
         }
 
         .gal button {
-            cursor: pointer
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            outline-offset: 3px
+        }
+
+        .gal button:hover,
+        .gal button:focus-visible {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(31, 95, 147, .3)
         }
 
         .gal img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform .4s
+            display: block;
+            transition: transform .6s cubic-bezier(.2, .7, .2, 1)
         }
 
         .gal button:hover img,
         .gal button:focus-visible img {
-            transform: scale(1.12)
+            transform: scale(1.08)
+        }
+
+        .gal button:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: linear-gradient(180deg, rgba(6, 24, 36, 0) 45%, rgba(6, 24, 36, .82));
+            pointer-events: none
+        }
+
+        .gal button:after {
+            content: "⤢";
+            position: absolute;
+            z-index: 2;
+            top: .8rem;
+            right: .8rem;
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .92);
+            color: #0b2638;
+            font-size: 1.15rem;
+            font-weight: 700;
+            opacity: 0;
+            transform: scale(.7);
+            transition: opacity .25s, transform .25s
+        }
+
+        .gal button:hover:after,
+        .gal button:focus-visible:after {
+            opacity: 1;
+            transform: none
         }
 
         .gal .ph {
@@ -905,11 +1021,274 @@
 
         .gal figcaption {
             position: absolute;
+            z-index: 2;
             inset: auto 0 0;
-            padding: .4rem .6rem;
-            background: rgba(0, 0, 0, .55);
+            padding: 1.4rem 1.1rem 1rem;
             color: #fff;
-            font-size: .8rem
+            font: 700 1.02rem/1.3 Sora, "Hind Siliguri", sans-serif;
+            text-align: left;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, .45);
+            border-left: 5px solid var(--green);
+            transition: padding-bottom .3s
+        }
+
+        .gal button:hover figcaption {
+            padding-bottom: 1.25rem
+        }
+
+        @media(max-width:520px) {
+            .gal {
+                grid-template-columns: 1fr
+            }
+        }
+
+        /* gallery: see more button + photo popup */
+        .gmore {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.8rem
+        }
+
+        .gmbtn {
+            gap: .7rem;
+            min-height: 56px;
+            padding: .7rem .8rem .7rem 1.4rem;
+            border-color: transparent;
+            background: linear-gradient(120deg, var(--blue), var(--green));
+            font-size: 1.05rem;
+            box-shadow: var(--shadow);
+            transition: transform .25s, box-shadow .25s
+        }
+
+        .gmbtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px rgba(31, 95, 147, .3)
+        }
+
+        .gmbtn svg {
+            width: 22px;
+            height: 22px
+        }
+
+        .gmn {
+            display: grid;
+            place-items: center;
+            min-width: 34px;
+            height: 34px;
+            padding: 0 .6rem;
+            border-radius: 999px;
+            background: #0b2638;
+            color: #fff;
+            font: 800 .9rem Sora, sans-serif
+        }
+
+        @keyframes gmin {
+            from {
+                opacity: 0;
+                transform: translateY(26px) scale(.97)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes gmfade {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        dialog {
+            margin: auto
+        }
+
+        #gm {
+            width: min(1120px, 100% - 1.5rem);
+            max-width: none;
+            height: min(90vh, 900px);
+            padding: 0;
+            border-radius: 28px;
+            overflow: hidden
+        }
+
+        #gm[open] {
+            display: flex;
+            flex-direction: column;
+            animation: gmin .4s cubic-bezier(.2, .7, .2, 1)
+        }
+
+        #gm::backdrop {
+            background: rgba(5, 20, 30, .72);
+            backdrop-filter: blur(6px)
+        }
+
+        #gm[open]::backdrop {
+            animation: gmfade .3s
+        }
+
+        .gmh {
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.4rem 1.5rem;
+            background: linear-gradient(120deg, var(--blue), var(--green));
+            color: #0b2638
+        }
+
+        .gmh:before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            right: -50px;
+            top: -90px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .22)
+        }
+
+        .gmh h3 {
+            font-size: clamp(1.25rem, 4vw, 1.7rem);
+            font-weight: 800
+        }
+
+        .gmh p {
+            opacity: .9;
+            font-size: .95rem
+        }
+
+        .gmx {
+            flex: none;
+            width: 44px;
+            height: 44px;
+            border: 0;
+            border-radius: 50%;
+            background: #0b2638;
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform .2s
+        }
+
+        .gmx:hover {
+            transform: rotate(90deg) scale(1.05)
+        }
+
+        .gmc {
+            padding: 1rem 1.5rem .6rem;
+            margin: 0
+        }
+
+        .gmb {
+            flex: 1;
+            min-height: 0;
+            overflow: auto;
+            overscroll-behavior: contain
+        }
+
+        .gmg {
+            column-width: 250px;
+            column-gap: 1rem;
+            padding: .4rem 1.5rem 1.6rem
+        }
+
+        .gi {
+            position: relative;
+            display: block;
+            width: 100%;
+            margin: 0 0 1rem;
+            padding: 0;
+            border: 0;
+            border-radius: 18px;
+            overflow: hidden;
+            break-inside: avoid;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--blue), var(--green));
+            box-shadow: var(--shadow);
+            animation: rise .5s cubic-bezier(.2, .7, .2, 1) both;
+            animation-delay: calc(min(var(--i, 0), 12)*50ms);
+            transition: transform .3s cubic-bezier(.2, .7, .2, 1), box-shadow .3s
+        }
+
+        .gi:hover,
+        .gi:focus-visible {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 36px rgba(31, 95, 147, .3)
+        }
+
+        .gi img {
+            display: block;
+            width: 100%;
+            height: auto;
+            min-height: 120px;
+            object-fit: cover;
+            transition: transform .6s cubic-bezier(.2, .7, .2, 1)
+        }
+
+        .gi:hover img,
+        .gi:focus-visible img {
+            transform: scale(1.06)
+        }
+
+        .gi:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: linear-gradient(180deg, rgba(6, 24, 36, 0) 55%, rgba(6, 24, 36, .82));
+            pointer-events: none
+        }
+
+        .gi .gc {
+            position: absolute;
+            z-index: 2;
+            top: .7rem;
+            left: .7rem;
+            padding: .1rem .7rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .92);
+            color: #0b2638;
+            font-size: .72rem;
+            font-weight: 700
+        }
+
+        .gi figcaption {
+            position: absolute;
+            z-index: 2;
+            inset: auto 0 0;
+            padding: 1.2rem .9rem .8rem;
+            color: #fff;
+            font: 700 .95rem/1.3 Sora, "Hind Siliguri", sans-serif;
+            text-align: left;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, .45)
+        }
+
+        .gmempty {
+            column-span: all;
+            padding: 2rem;
+            text-align: center;
+            color: var(--muted);
+            border: 2px dashed var(--line);
+            border-radius: 18px
+        }
+
+        #lb {
+            width: min(920px, 100% - 2rem)
+        }
+
+        #lb img {
+            width: 100%;
+            border-radius: 14px
         }
 
         #lb img {
@@ -977,6 +1356,376 @@
             background: var(--green)
         }
 
+        /* map button */
+        .mapcta {
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+            padding: 1.4rem 1.6rem;
+            border-radius: 26px;
+            background: linear-gradient(120deg, var(--blue), var(--green));
+            color: #0b2638;
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            transition: transform .25s, box-shadow .25s
+        }
+
+        .mapcta:before,
+        .mapcta:after {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .22)
+        }
+
+        .mapcta:before {
+            width: 220px;
+            height: 220px;
+            right: -50px;
+            top: -90px
+        }
+
+        .mapcta:after {
+            width: 130px;
+            height: 130px;
+            right: 150px;
+            bottom: -70px
+        }
+
+        .mapcta:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 34px rgba(31, 95, 147, .28)
+        }
+
+        .mapcta .mi {
+            flex: none;
+            display: grid;
+            place-items: center;
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            background: #fff;
+            color: #1d5f93;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, .15)
+        }
+
+        .mapcta .mi svg {
+            width: 34px;
+            height: 34px
+        }
+
+        .mapcta .mt {
+            flex: 1;
+            min-width: 0
+        }
+
+        .mapcta .mt strong {
+            display: block;
+            font: 800 clamp(1.15rem, 3.6vw, 1.5rem)/1.2 Sora, "Hind Siliguri", sans-serif
+        }
+
+        .mapcta .mt small {
+            display: block;
+            margin-top: .25rem;
+            font-size: .95rem;
+            opacity: .9
+        }
+
+        .mapcta .mb {
+            flex: none;
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .7rem 1.2rem;
+            border-radius: 999px;
+            background: #0b2638;
+            color: #fff;
+            font-weight: 700;
+            white-space: nowrap
+        }
+
+        .mapcta .mb svg {
+            width: 18px;
+            height: 18px;
+            transition: transform .25s
+        }
+
+        .mapcta:hover .mb svg {
+            transform: translate(3px, -3px)
+        }
+
+        @media(max-width:700px) {
+            .mapcta {
+                flex-wrap: wrap;
+                padding: 1.2rem
+            }
+
+            .mapcta .mt {
+                flex-basis: calc(100% - 90px)
+            }
+
+            .mapcta .mb {
+                width: 100%;
+                justify-content: center
+            }
+        }
+
+        /* live bus location */
+        #live {
+            background: linear-gradient(180deg, var(--bg), var(--surface))
+        }
+
+        .lvbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: .6rem 1rem;
+            margin-bottom: 1.2rem
+        }
+
+        .lvbar .sp {
+            flex: 1
+        }
+
+        @keyframes lvp {
+            0% {
+                box-shadow: 0 0 0 0 rgba(80, 216, 144, .75)
+            }
+
+            100% {
+                box-shadow: 0 0 0 10px rgba(80, 216, 144, 0)
+            }
+        }
+
+        .lvpill {
+            display: inline-flex;
+            align-items: center;
+            gap: .55rem;
+            padding: .35rem 1rem;
+            border-radius: 999px;
+            background: #0b2638;
+            color: #fff;
+            font-weight: 700;
+            font-size: .85rem;
+            letter-spacing: .08em
+        }
+
+        .lvpill:before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: lvp 1.4s infinite
+        }
+
+        .lvpill.off:before {
+            background: #e05a5a;
+            animation: none
+        }
+
+        .lvg {
+            display: grid;
+            gap: 1rem
+        }
+
+        @media(min-width:900px) {
+            .lvg {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        .lvc {
+            padding: 1.3rem
+        }
+
+        .lvh {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: .4rem .8rem
+        }
+
+        .lvh h3 {
+            font-size: 1.15rem
+        }
+
+        .lvh .tag {
+            background: var(--green);
+            color: #0b2638;
+            font-weight: 700;
+            margin: 0
+        }
+
+        .lvb {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .6rem;
+            margin-top: .9rem
+        }
+
+        .bp {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            padding: .5rem .85rem .5rem .55rem;
+            border: 2px solid var(--line);
+            border-radius: 16px;
+            background: var(--bg)
+        }
+
+        .bp .bn {
+            display: grid;
+            place-items: center;
+            flex: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--blue);
+            color: var(--on-blue);
+            font: 800 .95rem Sora, sans-serif
+        }
+
+        .bp strong {
+            display: block;
+            line-height: 1.2
+        }
+
+        .bp small {
+            display: block;
+            color: var(--muted);
+            font-size: .85rem
+        }
+
+        .lvt {
+            --row: 58px;
+            position: relative;
+            margin-top: 1.1rem
+        }
+
+        .lvt:before {
+            content: "";
+            position: absolute;
+            z-index: 0;
+            left: 19px;
+            top: calc(var(--row)/2);
+            bottom: calc(var(--row)/2);
+            width: 4px;
+            border-radius: 2px;
+            background: linear-gradient(var(--blue), var(--green))
+        }
+
+        .lvs {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            height: var(--row);
+            padding-left: 58px;
+            font-weight: 500
+        }
+
+        .lvs:before {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            left: 12px;
+            top: 50%;
+            width: 18px;
+            height: 18px;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            border: 4px solid var(--blue);
+            background: var(--surface)
+        }
+
+        .lvs:first-child:before {
+            background: var(--blue)
+        }
+
+        .lvs:last-of-type:before {
+            border-color: var(--green);
+            background: var(--green)
+        }
+
+        .lvs.has .nm {
+            color: var(--link);
+            font-weight: 800
+        }
+
+        .lvs .at {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: .3rem;
+            margin-left: auto
+        }
+
+        .lvs .ab {
+            padding: .1rem .65rem;
+            border-radius: 999px;
+            background: var(--green);
+            color: #0b2638;
+            font-size: .75rem;
+            font-weight: 700;
+            white-space: nowrap
+        }
+
+        @keyframes lvr {
+            0% {
+                box-shadow: 0 0 0 0 rgba(80, 216, 144, .7)
+            }
+
+            100% {
+                box-shadow: 0 0 0 14px rgba(80, 216, 144, 0)
+            }
+        }
+
+        .lvm {
+            position: absolute;
+            z-index: 3;
+            left: 0;
+            top: calc(var(--p, 0)*var(--row) + var(--row)/2);
+            width: 42px;
+            height: 42px;
+            transform: translateY(-50%);
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #0b2638;
+            color: #fff;
+            border: 3px solid var(--green);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, .25);
+            animation: lvr 1.8s infinite;
+            transition: top 1.9s linear
+        }
+
+        .lvm svg {
+            width: 20px;
+            height: 20px
+        }
+
+        .lvm i {
+            position: absolute;
+            top: -9px;
+            right: -9px;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 4px;
+            border-radius: 10px;
+            background: var(--green);
+            color: #0b2638;
+            font: 800 .72rem/20px Sora, sans-serif;
+            font-style: normal;
+            text-align: center
+        }
+
         /* notices */
         .notice {
             display: flex;
@@ -1032,6 +1781,576 @@
 
         dialog::backdrop {
             background: rgba(5, 20, 30, .6)
+        }
+
+        /* committee */
+        .cmg {
+            display: grid;
+            gap: 1.1rem;
+            grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr))
+        }
+
+        .mem {
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            padding: 0 1.2rem 1.4rem;
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity .6s cubic-bezier(.2, .7, .2, 1), transform .6s cubic-bezier(.2, .7, .2, 1), box-shadow .3s, border-color .3s;
+            transition-delay: calc(var(--i, 0)*80ms), calc(var(--i, 0)*80ms), 0s, 0s
+        }
+
+        .mem.in {
+            opacity: 1;
+            transform: none
+        }
+
+        .mem.in:hover {
+            transform: translateY(-6px);
+            transition-delay: 0s;
+            border-color: var(--green);
+            box-shadow: 0 16px 36px rgba(31, 95, 147, .25)
+        }
+
+        .mem:before {
+            content: "";
+            display: block;
+            height: 78px;
+            margin: 0 -1.2rem;
+            background: linear-gradient(120deg, var(--blue), var(--green))
+        }
+
+        .mav {
+            position: relative;
+            display: grid;
+            place-items: center;
+            width: 104px;
+            height: 104px;
+            margin: -52px auto 0;
+            border-radius: 50%;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--blue), var(--green));
+            color: #0b2638;
+            border: 5px solid var(--surface);
+            box-shadow: 0 8px 20px rgba(31, 95, 147, .25);
+            transition: transform .4s cubic-bezier(.2, .7, .2, 1)
+        }
+
+        .mem:hover .mav {
+            transform: scale(1.07)
+        }
+
+        .mav svg {
+            width: 46px;
+            height: 46px
+        }
+
+        .mav img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .mem h3 {
+            margin-top: .9rem;
+            font-size: 1.15rem
+        }
+
+        .mem .role {
+            display: inline-block;
+            margin-top: .45rem;
+            padding: .1rem .85rem;
+            border-radius: 999px;
+            background: var(--bg);
+            border: 1px solid var(--line);
+            color: var(--muted);
+            font-size: .88rem;
+            font-weight: 500
+        }
+
+        .mem.real .role {
+            background: var(--green);
+            border-color: var(--green);
+            color: #0b2638;
+            font-weight: 700
+        }
+
+        /* complain box */
+        #complain {
+            background: linear-gradient(180deg, var(--bg), var(--surface))
+        }
+
+        .cb {
+            display: grid;
+            gap: 1.2rem
+        }
+
+        @media(min-width:900px) {
+            .cb {
+                grid-template-columns: 5fr 7fr;
+                align-items: stretch
+            }
+        }
+
+        .cbi {
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+            padding: 2rem;
+            border-radius: 26px;
+            background: linear-gradient(150deg, var(--blue), var(--green));
+            color: #0b2638;
+            box-shadow: var(--shadow)
+        }
+
+        .cbi:before,
+        .cbi:after {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .22)
+        }
+
+        .cbi:before {
+            width: 240px;
+            height: 240px;
+            right: -80px;
+            top: -90px
+        }
+
+        .cbi:after {
+            width: 170px;
+            height: 170px;
+            left: -60px;
+            bottom: -70px
+        }
+
+        .cbic {
+            display: grid;
+            place-items: center;
+            width: 68px;
+            height: 68px;
+            border-radius: 22px;
+            background: #fff;
+            color: #1d5f93;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .15)
+        }
+
+        .cbic svg {
+            width: 36px;
+            height: 36px
+        }
+
+        .cbi h3 {
+            margin: 1.1rem 0 .5rem;
+            font-size: clamp(1.3rem, 4vw, 1.7rem);
+            font-weight: 800
+        }
+
+        .cbi>p {
+            opacity: .92;
+            margin-bottom: 1.2rem
+        }
+
+        .cbi ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: .8rem
+        }
+
+        .cbi li {
+            display: flex;
+            align-items: flex-start;
+            gap: .7rem;
+            font-weight: 500
+        }
+
+        .cbi li svg {
+            flex: none;
+            width: 24px;
+            height: 24px;
+            padding: 4px;
+            margin-top: .1rem;
+            border-radius: 50%;
+            background: #0b2638;
+            color: #fff
+        }
+
+        .cbf {
+            display: grid;
+            gap: 1.15rem;
+            padding: 1.6rem;
+            border-radius: 26px
+        }
+
+        .frow {
+            display: grid;
+            gap: 1.15rem
+        }
+
+        @media(min-width:640px) {
+            .frow {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+
+        .fld label,
+        .types legend {
+            display: block;
+            margin-bottom: .35rem;
+            font-weight: 700;
+            font-size: .92rem
+        }
+
+        .fld input,
+        .fld textarea {
+            width: 100%;
+            min-height: 50px;
+            padding: .7rem .95rem;
+            border-radius: 14px;
+            border: 2px solid var(--line);
+            background: var(--bg);
+            color: var(--ink);
+            font: inherit;
+            transition: border-color .2s, box-shadow .2s, background .2s
+        }
+
+        .fld textarea {
+            min-height: 160px;
+            resize: vertical
+        }
+
+        .fld input:focus,
+        .fld textarea:focus {
+            outline: none;
+            border-color: var(--green);
+            background: var(--surface);
+            box-shadow: 0 0 0 4px rgba(80, 216, 144, .25)
+        }
+
+        .types {
+            border: 0;
+            padding: 0;
+            margin: 0;
+            min-width: 0
+        }
+
+        .tw {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem
+        }
+
+        .opt {
+            position: relative
+        }
+
+        .opt input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none
+        }
+
+        .opt span {
+            display: inline-block;
+            padding: .45rem 1.05rem;
+            border-radius: 999px;
+            border: 2px solid var(--line);
+            background: var(--surface);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background .2s, border-color .2s, transform .15s
+        }
+
+        .opt span:hover {
+            border-color: var(--blue);
+            transform: translateY(-1px)
+        }
+
+        .opt input:checked+span {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: var(--on-blue);
+            font-weight: 700
+        }
+
+        .opt input:focus-visible+span {
+            outline: 3px solid var(--green);
+            outline-offset: 2px
+        }
+
+        .cbm {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: .3rem
+        }
+
+        .cbsend {
+            width: 100%;
+            justify-content: center;
+            min-height: 54px;
+            font-size: 1.05rem
+        }
+
+        .cbsend svg {
+            width: 20px;
+            height: 20px;
+            transition: transform .25s
+        }
+
+        .cbsend:hover svg {
+            transform: translate(3px, -3px)
+        }
+
+        .cbsend:disabled {
+            opacity: .6;
+            cursor: wait;
+            transform: none
+        }
+
+        .cbst {
+            border-radius: 14px;
+            font-weight: 600
+        }
+
+        .cbst:not(:empty) {
+            padding: .75rem 1rem;
+            border: 2px solid var(--blue);
+            background: rgba(79, 152, 202, .15)
+        }
+
+        .cbst.ok {
+            border-color: var(--green);
+            background: rgba(80, 216, 144, .22)
+        }
+
+        .cbst.err {
+            border-color: #e05a5a;
+            background: rgba(224, 90, 90, .14)
+        }
+
+        .hp {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            opacity: 0
+        }
+
+        /* contact cards, social links, whatsapp button */
+        .cc {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            transition: transform .25s, border-color .25s, box-shadow .25s
+        }
+
+        .cc:hover {
+            transform: translateY(-4px);
+            border-color: var(--green);
+            box-shadow: 0 14px 30px rgba(31, 95, 147, .2)
+        }
+
+        .cci {
+            flex: none;
+            display: grid;
+            place-items: center;
+            width: 54px;
+            height: 54px;
+            border-radius: 17px;
+            background: linear-gradient(135deg, var(--blue), var(--green));
+            color: #0b2638
+        }
+
+        .cci svg {
+            width: 26px;
+            height: 26px
+        }
+
+        .cc h3 {
+            font-size: 1.05rem
+        }
+
+        .cl {
+            display: block;
+            margin-top: .15rem;
+            font-weight: 600;
+            word-break: break-word
+        }
+
+        .cc>div {
+            min-width: 0
+        }
+
+        @media(max-width:480px) {
+            .cl {
+                font-size: .86rem
+            }
+        }
+
+        .cact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .45rem;
+            margin-top: .7rem
+        }
+
+        .mini {
+            display: inline-flex;
+            align-items: center;
+            padding: .22rem .85rem;
+            border-radius: 999px;
+            border: 2px solid var(--blue);
+            background: var(--blue);
+            color: var(--on-blue);
+            font-size: .85rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform .15s
+        }
+
+        .mini:hover {
+            transform: translateY(-2px)
+        }
+
+        .mini.wa {
+            background: #25D366;
+            border-color: #25D366;
+            color: #073b1d
+        }
+
+        .soc {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: .6rem
+        }
+
+        .soc .sl {
+            margin-right: .3rem;
+            font-weight: 700
+        }
+
+        .so {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .5rem 1.05rem;
+            border-radius: 999px;
+            background: var(--surface);
+            color: var(--ink);
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform .2s, background .2s, color .2s, box-shadow .2s
+        }
+
+        .so svg {
+            width: 20px;
+            height: 20px;
+            transition: color .2s
+        }
+
+        .so.fb svg {
+            color: #1877F2
+        }
+
+        .so.tg svg {
+            color: #229ED9
+        }
+
+        .so.ig svg {
+            color: #E1306C
+        }
+
+        .so:hover {
+            transform: translateY(-3px);
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .22)
+        }
+
+        .so:hover svg {
+            color: #fff
+        }
+
+        .so.fb:hover {
+            background: #1877F2
+        }
+
+        .so.tg:hover {
+            background: #229ED9
+        }
+
+        .so.ig:hover {
+            background: linear-gradient(45deg, #f09433, #dc2743, #bc1888)
+        }
+
+        @keyframes wap {
+            0% {
+                box-shadow: 0 8px 22px rgba(37, 211, 102, .45), 0 0 0 0 rgba(37, 211, 102, .6)
+            }
+
+            100% {
+                box-shadow: 0 8px 22px rgba(37, 211, 102, .45), 0 0 0 16px rgba(37, 211, 102, 0)
+            }
+        }
+
+        .wafab {
+            position: fixed;
+            right: 1rem;
+            bottom: 1rem;
+            z-index: 45;
+            display: flex;
+            align-items: center;
+            text-decoration: none
+        }
+
+        .wafab .ico {
+            display: grid;
+            place-items: center;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #25D366;
+            animation: wap 2.2s infinite;
+            transition: transform .2s
+        }
+
+        .wafab:hover .ico {
+            transform: scale(1.08)
+        }
+
+        .wafab .ico svg {
+            width: 34px;
+            height: 34px
+        }
+
+        .wafab .lbl {
+            max-width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            opacity: 0;
+            padding: .45rem 0;
+            margin-right: 0;
+            border-radius: 999px;
+            background: var(--surface);
+            color: var(--ink);
+            font-weight: 700;
+            font-size: .9rem;
+            box-shadow: var(--shadow);
+            transition: max-width .35s, opacity .25s, padding .35s, margin .35s
+        }
+
+        .wafab:hover .lbl,
+        .wafab:focus-visible .lbl,
+        .wafab.peek .lbl {
+            max-width: 240px;
+            opacity: 1;
+            padding: .45rem 1rem;
+            margin-right: .6rem
         }
 
         /* uni / about / contact */
@@ -1100,7 +2419,7 @@
         #top {
             position: fixed;
             right: 1rem;
-            bottom: 1rem;
+            bottom: 5.4rem;
             z-index: 40;
             opacity: 0;
             pointer-events: none;
@@ -1136,9 +2455,12 @@
                 <li><a href="#schedule" data-i18n="nSch"></a></li>
                 <li><a href="#exams" data-i18n="nEx"></a></li>
                 <li><a href="#routes" data-i18n="nRoutes"></a></li>
+                <li><a href="#live" data-i18n="nLive"></a></li>
                 <li><a href="#notices" data-i18n="nNot"></a></li>
                 <li><a href="#gallery" data-i18n="nGal"></a></li>
                 <li><a href="#about" data-i18n="nAbout"></a></li>
+                <li><a href="#committee" data-i18n="nCommittee"></a></li>
+                <li><a href="#complain" data-i18n="nComplain"></a></li>
                 <li><a href="#contact" data-i18n="nContact"></a></li>
             </ul>
             <div class="actions"><button class="ic" id="lang" aria-label="Switch language">বাং</button>
@@ -1152,7 +2474,7 @@
         <section class="hero" id="home">
             <div class="frame">
                 <div class="shot">
-                    <img class="bg" src="hero.jpg" alt="Daffodil International University buses parked in a row">
+                    <img class="bg" src="cover.png" alt="Daffodil International University buses parked in a row">
                     <div class="scrim"></div>
                     <div class="hc">
                         <h3 data-i18n="heroSub">Dhanmondi Transport Community</h3>
@@ -1168,7 +2490,7 @@
                         <div class="clock" id="clock">--:--:--</div>
                         <div class="clock-d" id="date"></div>
                     </div>
-                    <div class="notch bl"><img src="Daffodil_University_logo.jpeg"
+                    <div class="notch bl"><img src="diu.png"
                             alt="Daffodil International University logo"><span data-i18n="affilShort"></span></div>
                 </div>
             </div>
@@ -1194,7 +2516,7 @@
                 <p class="lead" data-i18n="exP"></p>
                 <span class="sample" data-i18n="sample"></span>
                 <div class="chips" id="exTabs" role="group" aria-label="Exam type"></div>
-                <div id="exList"></div>
+                <div class="exg" id="exList"></div>
             </div>
         </section>
 
@@ -1203,6 +2525,27 @@
                 <h2 data-i18n="rtH"></h2>
                 <p class="lead" data-i18n="rtP"></p>
                 <div class="grid" id="rtList"></div>
+                <a class="mapcta" href="https://www.google.com/maps/d/u/0/embed?mid=1IVBMHjM7ktZsvJkQ6kvx6j5kzaD6NO_w&ll=23.81565305359332%2C90.34311500000001&z=13" target="_blank" rel="noopener">
+                    <span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+                    <span class="mt"><strong data-i18n="mapH"></strong><small data-i18n="mapP"></small></span>
+                    <span class="mb"><span data-i18n="mapBtn"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></span>
+                </a>
+            </div>
+        </section>
+
+        <section id="live">
+            <div class="wrap">
+                <h2 data-i18n="liveH"></h2>
+                <p class="lead" data-i18n="liveP"></p>
+                <span class="sample" id="lvSample" data-i18n="liveSample"></span>
+                <div class="lvbar">
+                    <span class="lvpill" id="lvPill"><span id="lvPillT"></span></span>
+                    <span class="meta" id="lvUpd"></span>
+                    <span class="sp"></span>
+                    <a class="btn g" id="lvMap" target="_blank" rel="noopener" data-i18n="liveMapBtn"></a>
+                </div>
+                <div class="chips" id="lvTabs" role="group" aria-label="Route"></div>
+                <div class="lvg" id="lvList"></div>
             </div>
         </section>
 
@@ -1227,6 +2570,7 @@
                 <input type="file" id="gFile" accept="image/*" multiple hidden>
                 <p class="meta" style="margin-top:.5rem" data-i18n="gNote"></p>
                 <div class="gal" id="gal"></div>
+                <div class="gmore"><button class="btn gmbtn" id="gmOpen" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7.500" height="7.500" rx="2"/><rect x="13.500" y="3" width="7.500" height="7.500" rx="2"/><rect x="3" y="13.500" width="7.500" height="7.500" rx="2"/><rect x="13.500" y="13.500" width="7.500" height="7.500" rx="2"/></svg><span data-i18n="gmMore"></span><b class="gmn" id="gmCount">0</b></button></div>
             </div>
         </section>
 
@@ -1234,7 +2578,7 @@
             <div class="wrap">
                 <h2 data-i18n="uniH"></h2>
                 <div class="uni">
-                    <div class="lg"><img src="Daffodil_University_logo.jpeg"
+                    <div class="lg"><img src="diu.png"
                             alt="Daffodil International University logo"></div>
                     <div>
                         <p class="lead" data-i18n="uniP"></p>
@@ -1263,23 +2607,85 @@
             </div>
         </section>
 
+        <section id="committee" style="background:var(--surface)">
+            <div class="wrap">
+                <h2 data-i18n="cmH"></h2>
+                <p class="lead" data-i18n="cmP"></p>
+                <span class="sample" id="cmNote" data-i18n="cmNote"></span>
+                <div class="cmg" id="cmList"></div>
+            </div>
+        </section>
+
+        <section id="complain">
+            <div class="wrap">
+                <h2 data-i18n="cbH"></h2>
+                <p class="lead" data-i18n="cbP"></p>
+                <div class="cb">
+                    <aside class="cbi">
+                        <span class="cbic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.5-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14h4"/></svg></span>
+                        <h3 data-i18n="cbSideH"></h3>
+                        <p data-i18n="cbSideP"></p>
+                        <ul>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="cbTip1"></span></li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="cbTip2"></span></li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="cbTip3"></span></li>
+                        </ul>
+                    </aside>
+                    <form class="cbf card" id="cbForm">
+                        <div class="frow">
+                            <div class="fld"><label for="cbId" data-i18n="cbId"></label>
+                                <input id="cbId" name="studentId" type="text" required maxlength="20" pattern="[0-9A-Za-z\-]{6,20}" autocomplete="off" data-i18n-ph="cbIdPh"></div>
+                            <div class="fld"><label for="cbDept" data-i18n="cbDept"></label>
+                                <input id="cbDept" name="department" type="text" required maxlength="60" list="deptList" autocomplete="off" data-i18n-ph="cbDeptPh">
+                                <datalist id="deptList">
+                                    <option value="CSE"><option value="SWE"><option value="EEE"><option value="ETE"><option value="BBA"><option value="Civil Engineering"><option value="Architecture"><option value="English"><option value="Law"><option value="Pharmacy"><option value="Textile Engineering"><option value="Public Health"><option value="Journalism &amp; Media"><option value="Multimedia &amp; Creative Technology">
+                                </datalist></div>
+                        </div>
+                        <fieldset class="types"><legend data-i18n="cbType"></legend>
+                            <div class="tw">
+                                <label class="opt"><input type="radio" name="type" value="Complaint" checked><span data-i18n="cbT1"></span></label>
+                                <label class="opt"><input type="radio" name="type" value="Suggestion"><span data-i18n="cbT2"></span></label>
+                                <label class="opt"><input type="radio" name="type" value="Appreciation"><span data-i18n="cbT3"></span></label>
+                            </div>
+                        </fieldset>
+                        <div class="fld"><label for="cbMsg" data-i18n="cbMsg"></label>
+                            <textarea id="cbMsg" name="message" required minlength="10" maxlength="1000" data-i18n-ph="cbMsgPh"></textarea>
+                            <div class="cbm"><span class="meta" id="cbCount">0/1000</span></div></div>
+                        <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+                        <button class="btn g cbsend" type="submit" id="cbBtn"><span data-i18n="cbSend"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></button>
+                        <p class="cbst" id="cbStatus" role="status" aria-live="polite"></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
         <section id="contact" style="background:var(--surface)">
             <div class="wrap">
                 <h2 data-i18n="coH"></h2>
                 <p class="lead" data-i18n="coP"></p>
                 <div class="grid three">
-                    <div class="card">
-                        <h3 data-i18n="coPhone"></h3>
-                        <p class="ph" data-i18n="coPending"></p>
+                    <div class="card cc">
+                        <span class="cci" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.800.6 2.800.7a2 2 0 0 1 1.700 2z"/></svg></span>
+                        <div>
+                            <h3 data-i18n="coPhone"></h3>
+                            <a class="cl" href="tel:+8801934345187">+8801934345187</a>
+                            <div class="cact"><a class="mini" href="tel:+8801934345187" data-i18n="coCall"></a><a class="mini wa" id="coWa" href="https://wa.me/8801934345187" target="_blank" rel="noopener" data-i18n="coWa"></a></div>
+                        </div>
                     </div>
-                    <div class="card">
-                        <h3 data-i18n="coMail"></h3>
-                        <p class="ph" data-i18n="coPending"></p>
+                    <div class="card cc">
+                        <span class="cci" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3.5 7l8.500 6 8.500-6"/></svg></span>
+                        <div>
+                            <h3 data-i18n="coMail"></h3>
+                            <a class="cl" href="mailto:dtcdiu@gmail.com">dtcdiu@gmail.com</a>
+                            <div class="cact"><a class="mini" href="mailto:dtcdiu@gmail.com" data-i18n="coMailBtn"></a></div>
+                        </div>
                     </div>
-                    <div class="card">
-                        <h3 data-i18n="coLinks"></h3>
-                        <p><a href="https://daffodilvarsity.edu.bd/" target="_blank" rel="noopener"
-                                data-i18n="uniSite"></a></p>
+                    <div class="card cc">
+                        <span class="cci" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M2.500 12h19M12 2.500c2.800 3 4.200 6.200 4.200 9.500S14.800 18.500 12 21.500C9.200 18.500 7.800 15.300 7.800 12S9.200 5.500 12 2.500z"/></svg></span>
+                        <div>
+                            <h3 data-i18n="coLinks"></h3>
+                            <a class="cl" href="https://daffodilvarsity.edu.bd/" target="_blank" rel="noopener" data-i18n="uniSite"></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1289,13 +2695,31 @@
     <footer>
         <div class="wrap">
             <div class="fl"><img src="Dhanmondi_transport_logo.jpeg" alt="Dhanmondi Transport Community logo"><img
-                    src="Daffodil_University_logo.jpeg" alt="Daffodil International University logo"></div>
+                    src="diu.png" alt="Daffodil International University logo"></div>
             <p data-i18n="affil"></p>
+            <div class="soc"><span class="sl" data-i18n="fsLabel"></span>
+                <a class="so fb" href="https://www.facebook.com/DIUDhanmondiTransportCommunity" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.600 9.900v-7H7.900V12h2.500V9.800c0-2.500 1.500-3.900 3.800-3.900 1.100 0 2.200.2 2.200.2v2.500h-1.300c-1.200 0-1.600.8-1.600 1.600V12h2.800l-.4 2.900h-2.400v7A10 10 0 0 0 22 12z"/></svg><span>Facebook</span></a>
+                <a class="so ig" id="igLink" href="#" target="_blank" rel="noopener" aria-label="Instagram" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.200"/><circle cx="17.500" cy="6.500" r="1" fill="currentColor"/></svg><span>Instagram</span></a>
+                <a class="so tg" href="https://t.me/+dfMu3snQ70s0NTVl" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.900 4.300 18.700 19.400c-.2 1.100-.9 1.400-1.800.9l-5-3.700-2.400 2.300c-.3.300-.5.500-1 .5l.4-5.100 9.300-8.400c.4-.4-.1-.6-.6-.2L6.100 13 1.200 11.500c-1.100-.3-1.100-1.100.2-1.600L20.500 2.500c.9-.3 1.700.2 1.400 1.800z"/></svg><span>Telegram</span></a>
+            </div>
             <p class="meta" data-i18n="disc"></p>
         </div>
     </footer>
 
+    <a class="wafab" id="wa" href="https://wa.me/8801934345187" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <span class="lbl" data-i18n="waLabel"></span>
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M20.500 3.500A11 11 0 0 0 3.200 16.800L2 22l5.300-1.400A11 11 0 1 0 20.500 3.500z"/><path fill="#25D366" d="M8.600 7.200c.3-.3.8-.3 1 .1l.9 2c.1.3 0 .6-.2.8l-.6.7c.8 1.600 2.100 2.900 3.700 3.700l.7-.7c.2-.2.5-.3.8-.2l2 .9c.4.2.5.7.1 1-.9.9-2 1.200-3.200.8-3.200-1.100-5.600-3.500-6.700-6.700-.4-1.200-.1-2.300.8-3.200z"/></svg></span>
+    </a>
+
     <button class="ic" id="top" aria-label="Back to top">↑</button>
+    <dialog id="gm" aria-labelledby="gmT">
+        <div class="gmh">
+            <div><h3 id="gmT" data-i18n="gmTitle"></h3><p data-i18n="gmSub"></p></div>
+            <button class="gmx" id="gmX" type="button" aria-label="Close">✕</button>
+        </div>
+        <div class="gmc chips" id="gmTabs" role="group" aria-label="Photo category"></div>
+        <div class="gmb"><div class="gmg" id="gmGrid"></div></div>
+    </dialog>
     <dialog id="lb"><img id="lbI" alt="">
         <p id="lbC" class="meta" style="margin:.6rem 0"></p>
         <div class="row"><button class="btn o" id="lbP" type="button" aria-label="Previous">‹</button><button
@@ -1316,35 +2740,35 @@
         /* ---- Translations ---- */
         const T = {
             en: {
-                affilShort: "DIU community initiative", stopsL: "Stops", nextL: "Next", nextBus: "Next bus", satThu: "Saturday to Thursday", nEx: "Exams", nGal: "Gallery", exH: "Exam Schedule", exP: "Exam dates, times and the bus for exam day.", exAll: "All", exMid: "Midterm", exFinal: "Final", exBus: "Exam-day bus", exUp: "Upcoming", exPast: "Completed", gH: "Gallery", gP: "Photos and moments from the community.", gAdd: "Preview your photos", gNote: "Photos you add are visible only in this browser, for this session.", gEmpty: "Official photos have not been added yet. The tiles below are placeholders.", gPh: "Photo placeholder", hint: "Hover or tap for details", nHome: "Home", nSch: "Schedule", nRoutes: "Routes", nNot: "Notices", nAbout: "About", nContact: "Contact",
+                affilShort: "Where mobility meets community", stopsL: "Stops", nextL: "Next", nextBus: "Next bus", satThu: "Saturday to Thursday", nEx: "Exams", nGal: "Gallery", exH: "Exam Schedule", exP: "Exam-day bus timings for midterm and final exams.", exAll: "All", exMid: "Midterm", exFinal: "Final", exSlot: "Slot", exBus: "Exam-day bus", exUp: "Upcoming", exPast: "Completed", gH: "Gallery", gP: "Photos and moments from the community.", gAdd: "Preview your photos", gNote: "Photos you add are visible only in this browser, for this session.", gEmpty: "Official photos have not been added yet. The tiles below are placeholders.", gPh: "Photo placeholder", hint: "Hover or tap for details", nHome: "Home", nSch: "Schedule", nRoutes: "Routes", nNot: "Notices", nAbout: "About", nContact: "Contact",
                 heroSub: "Dhanmondi Transport Community", heroH: "Your University Journey, Better Connected.", heroP: "Your central destination for university bus schedules, transportation updates, important announcements, and community information.",
                 ctaSch: "Explore Bus Schedules", ctaNot: "Latest Notices", ctaRt: "Explore Routes",
                 affil: "An Initiative of the Dhanmondi Transport Community | Daffodil International University", clockLbl: "Dhaka time",
                 schH: "Bus Schedule", schP: "Find your bus by route, stop, day or keyword.", sample: "Sample data. Replace with the official schedule when available.", search: "Search…", allRoutes: "All routes", allDays: "All days",
                 dep: "Departs", arr: "Arrives", days: "Days", from: "From", to: "To", none: "Nothing matches. Clear the search or filters.",
-                rtH: "Routes", rtP: "Each route with its stops in order, and departure times.", stopsPending: "Intermediate stops will be added once verified.",
+                rtH: "Routes", mapH: "View Route on Google Map", mapP: "See every stop and the full bus route on the interactive map.", mapBtn: "Open map", rtP: "Each route with its stops in order, and departure times.", stopsPending: "Intermediate stops will be added once verified.",
                 notH: "Notice Board", notP: "Official transport announcements, newest first.", all: "All", viewAll: "View all notices", viewMore: "View details", close: "Close",
                 pdfDl: "Download PDF", pdfOpen: "Open PDF", noPdf: "No PDF attached",
                 uniH: "Daffodil International University", uniP: "Daffodil International University (DIU) is the university this transport community serves.", uniName: "Full name", uniNote: "Campus, address and policy details are shown only once verified from the official website.", uniSite: "Visit official DIU website",
-                abH: "About Us", ab1: "Dhanmondi Transport Community is a community of the DIU student and university family, built to make transport information easier to find.", ab2: "This website gathers bus schedules, routes, notices and updates in one place. It is not an official university site unless confirmed by the university.",
-                coH: "Contact & Useful Links", coP: "Contact details will appear here once supplied.", coPhone: "Transport office phone", coMail: "Official email", coLinks: "University links", coPending: "To be added",
+                abH: "About Us", nComplain: "Complain Box", gmMore: "See more photos", gmTitle: "Photo Gallery", gmSub: "Transport, community meet-ups and more moments.", gmAll: "All", gmTransport: "Transport", gmMeetup: "Community meet-ups", gmOther: "Other moments", gmEmpty: "No photos in this category yet.", fsLabel: "Follow us", waLabel: "Chat on WhatsApp", waMsg: "Hello! I have a question about the Dhanmondi Transport service.", coCall: "Call now", coMailBtn: "Send an email", coWa: "WhatsApp", nCommittee: "Committee", cmH: "Committee", cmP: "Meet the members of the Dhanmondi Transport Community committee.", cmNote: "Member details will be added once supplied.", cmName: "Name to be added", cmRole: "Position to be added", nLive: "Live", liveH: "Live Bus Location", liveP: "See where each bus is right now, stop by stop.", liveOn: "LIVE", liveOff: "OFFLINE", liveUpd: "Updated", liveJust: "just now", liveSec: "{n} sec ago", liveMin: "{n} min ago", liveSample: "Sample simulation. The buses shown here are not real until a GPS feed is connected.", liveMapBtn: "Open live map", liveNone: "No bus is running on this route right now.", liveAt: "At {s}", liveBw: "Between {a} and {b}", liveEnd: "Reached {s}", liveCount: "{n} active", liveBus: "Bus", cbH: "Complain Box", cbP: "Share a problem, an idea or a thank-you about the transport service.", cbSideH: "Your voice matters", cbSideP: "Tell us what is working and what is not, so the service can get better for everyone.", cbTip1: "Be specific: mention the route, bus and time.", cbTip2: "Keep it respectful and honest.", cbTip3: "Use your real student ID so we can follow up.", cbId: "Student ID", cbIdPh: "e.g. 221-15-1234", cbDept: "Department", cbDeptPh: "e.g. CSE", cbType: "Type", cbT1: "Complaint", cbT2: "Suggestion", cbT3: "Appreciation", cbMsg: "Your complaint or opinion", cbMsgPh: "Write here…", cbSend: "Submit", cbSending: "Sending…", cbOk: "Thank you! Your message has been submitted.", cbErr: "Sorry, something went wrong. Please try again.", cbMail: "Your email app should open now. Please press send there.", cbPreview: "Complain box is not connected yet, so nothing was sent.", ab1: "Dhanmondi Transport Community is a community of the DIU student and university family, built to make transport information easier to find.", ab2: "This website gathers bus schedules, routes, notices and updates in one place. It is not an official university site unless confirmed by the university.",
+                coH: "Contact & Useful Links", coP: "Reach the transport community through any of these channels.", coPhone: "official phone", coMail: "Official email", coLinks: "University links", coPending: "To be added",
                 disc: "Schedules, routes and notices marked as sample are placeholders, not official information.",
                 cats: { general: "General Announcement", schedule: "Schedule Update", route: "Route Change", holiday: "Holiday Notice", emergency: "Emergency Notice", info: "Important Information" },
                 dayN: { sat: "Saturday", sun: "Sunday", mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday", fri: "Friday" }, urgent: "Urgent", important: "Important", sampleTag: "Sample"
             },
             bn: {
-                affilShort: "ড্যাফোডিল কমিউনিটি উদ্যোগ", stopsL: "স্টপ", nextL: "পরবর্তী", nextBus: "পরবর্তী বাস", satThu: "শনিবার থেকে বৃহস্পতিবার", nEx: "পরীক্ষা", nGal: "গ্যালারি", exH: "পরীক্ষার সময়সূচি", exP: "পরীক্ষার তারিখ, সময় ও পরীক্ষার দিনের বাস।", exAll: "সব", exMid: "মিডটার্ম", exFinal: "ফাইনাল", exBus: "পরীক্ষার দিনের বাস", exUp: "আসন্ন", exPast: "সম্পন্ন", gH: "গ্যালারি", gP: "কমিউনিটির ছবি ও মুহূর্ত।", gAdd: "আপনার ছবি প্রিভিউ করুন", gNote: "আপনার যোগ করা ছবি শুধু এই ব্রাউজারে, এই সেশনে দেখা যায়।", gEmpty: "অফিসিয়াল ছবি এখনও যোগ হয়নি। নিচের জায়গাগুলো প্লেসহোল্ডার।", gPh: "ছবির জায়গা", hint: "বিস্তারিত দেখতে হোভার বা ট্যাপ করুন", nHome: "হোম", nSch: "সময়সূচি", nRoutes: "রুট", nNot: "নোটিশ", nAbout: "সম্পর্কে", nContact: "যোগাযোগ",
+                affilShort: "ড্যাফোডিল কমিউনিটি উদ্যোগ", stopsL: "স্টপ", nextL: "পরবর্তী", nextBus: "পরবর্তী বাস", satThu: "শনিবার থেকে বৃহস্পতিবার", nEx: "পরীক্ষা", nGal: "গ্যালারি", exH: "পরীক্ষার সময়সূচি", exP: "মিডটার্ম ও ফাইনাল পরীক্ষার দিনের বাসের সময়।", exAll: "সব", exMid: "মিডটার্ম", exFinal: "ফাইনাল", exSlot: "স্লট", exBus: "পরীক্ষার দিনের বাস", exUp: "আসন্ন", exPast: "সম্পন্ন", gH: "গ্যালারি", gP: "কমিউনিটির ছবি ও মুহূর্ত।", gAdd: "আপনার ছবি প্রিভিউ করুন", gNote: "আপনার যোগ করা ছবি শুধু এই ব্রাউজারে, এই সেশনে দেখা যায়।", gEmpty: "অফিসিয়াল ছবি এখনও যোগ হয়নি। নিচের জায়গাগুলো প্লেসহোল্ডার।", gPh: "ছবির জায়গা", hint: "বিস্তারিত দেখতে হোভার বা ট্যাপ করুন", nHome: "হোম", nSch: "সময়সূচি", nRoutes: "রুট", nNot: "নোটিশ", nAbout: "সম্পর্কে", nContact: "যোগাযোগ",
                 heroSub: "ধানমন্ডি ট্রান্সপোর্ট কমিউনিটি", heroH: "আপনার বিশ্ববিদ্যালয় যাত্রা, আরও সংযুক্ত।", heroP: "বিশ্ববিদ্যালয়ের বাসের সময়সূচি, পরিবহন হালনাগাদ, গুরুত্বপূর্ণ ঘোষণা ও কমিউনিটির তথ্যের কেন্দ্রীয় ঠিকানা।",
                 ctaSch: "বাসের সময়সূচি দেখুন", ctaNot: "সাম্প্রতিক নোটিশ", ctaRt: "রুট দেখুন",
                 affil: "ধানমন্ডি ট্রান্সপোর্ট কমিউনিটির একটি উদ্যোগ | Daffodil International University", clockLbl: "ঢাকার সময়",
                 schH: "বাসের সময়সূচি", schP: "রুট, স্টপ, বার বা কীওয়ার্ড দিয়ে আপনার বাস খুঁজুন।", sample: "নমুনা তথ্য। অফিসিয়াল সময়সূচি পাওয়া গেলে প্রতিস্থাপন করা হবে।", search: "খুঁজুন…", allRoutes: "সব রুট", allDays: "সব বার",
                 dep: "ছাড়ার সময়", arr: "পৌঁছানোর সময়", days: "বার", from: "যাত্রা শুরু", to: "গন্তব্য", none: "কিছু মেলেনি। সার্চ বা ফিল্টার মুছে দেখুন।",
-                rtH: "রুট", rtP: "প্রতিটি রুট ও তার স্টপ ক্রমানুসারে।", stopsPending: "মধ্যবর্তী স্টপ যাচাইয়ের পর যোগ করা হবে।",
+                rtH: "রুট", mapH: "গুগল ম্যাপে রুট দেখুন", mapP: "ইন্টারঅ্যাকটিভ ম্যাপে প্রতিটি স্টপ ও পুরো বাস রুট দেখুন।", mapBtn: "ম্যাপ খুলুন", rtP: "প্রতিটি রুট ও তার স্টপ ক্রমানুসারে।", stopsPending: "মধ্যবর্তী স্টপ যাচাইয়ের পর যোগ করা হবে।",
                 notH: "নোটিশ বোর্ড", notP: "পরিবহন সংক্রান্ত অফিসিয়াল ঘোষণা, নতুনগুলো আগে।", all: "সব", viewAll: "সব নোটিশ দেখুন", viewMore: "বিস্তারিত দেখুন", close: "বন্ধ করুন",
                 pdfDl: "PDF ডাউনলোড", pdfOpen: "PDF খুলুন", noPdf: "কোনো PDF সংযুক্ত নেই",
                 uniH: "Daffodil International University", uniP: "Daffodil International University (DIU) হলো সেই বিশ্ববিদ্যালয় যার জন্য এই ট্রান্সপোর্ট কমিউনিটি কাজ করে।", uniName: "পূর্ণ নাম", uniNote: "ক্যাম্পাস, ঠিকানা ও নীতিমালার তথ্য অফিসিয়াল ওয়েবসাইট থেকে যাচাইয়ের পরই দেখানো হবে।", uniSite: "DIU অফিসিয়াল ওয়েবসাইট দেখুন",
-                abH: "আমাদের সম্পর্কে", ab1: "ধানমন্ডি ট্রান্সপোর্ট কমিউনিটি ডিআইইউ শিক্ষার্থী ও বিশ্ববিদ্যালয় পরিবারের একটি কমিউনিটি, যার লক্ষ্য পরিবহন তথ্য সহজে পাওয়া।", ab2: "এই ওয়েবসাইটে বাসের সময়সূচি, রুট, নোটিশ ও হালনাগাদ এক জায়গায় থাকে। বিশ্ববিদ্যালয় নিশ্চিত না করা পর্যন্ত এটি অফিসিয়াল ওয়েবসাইট নয়।",
-                coH: "যোগাযোগ ও প্রয়োজনীয় লিংক", coP: "যোগাযোগের তথ্য পাওয়া গেলে এখানে দেওয়া হবে।", coPhone: "পরিবহন অফিসের ফোন", coMail: "অফিসিয়াল ইমেইল", coLinks: "বিশ্ববিদ্যালয়ের লিংক", coPending: "যোগ করা হবে",
+                abH: "আমাদের সম্পর্কে", nComplain: "অভিযোগ বক্স", gmMore: "আরও ছবি দেখুন", gmTitle: "ফটো গ্যালারি", gmSub: "পরিবহন, কমিউনিটি মিটআপ ও আরও মুহূর্ত।", gmAll: "সব", gmTransport: "পরিবহন", gmMeetup: "কমিউনিটি মিটআপ", gmOther: "অন্যান্য মুহূর্ত", gmEmpty: "এই বিভাগে এখনও কোনো ছবি নেই।", fsLabel: "আমাদের অনুসরণ করুন", waLabel: "হোয়াটসঅ্যাপে চ্যাট করুন", waMsg: "হ্যালো! ধানমন্ডি ট্রান্সপোর্ট সার্ভিস সম্পর্কে আমার একটি প্রশ্ন আছে।", coCall: "এখনই কল করুন", coMailBtn: "ইমেইল পাঠান", coWa: "হোয়াটসঅ্যাপ", nCommittee: "কমিটি", cmH: "কমিটি", cmP: "ধানমন্ডি ট্রান্সপোর্ট কমিউনিটি কমিটির সদস্যদের সাথে পরিচিত হোন।", cmNote: "সদস্যদের তথ্য পাওয়া গেলে যোগ করা হবে।", cmName: "নাম যোগ করা হবে", cmRole: "পদবি যোগ করা হবে", nLive: "লাইভ", liveH: "বাসের লাইভ অবস্থান", liveP: "এখন কোন বাস কোন স্টপে আছে, স্টপ ধরে ধরে দেখুন।", liveOn: "লাইভ", liveOff: "অফলাইন", liveUpd: "হালনাগাদ", liveJust: "এইমাত্র", liveSec: "{n} সেকেন্ড আগে", liveMin: "{n} মিনিট আগে", liveSample: "নমুনা সিমুলেশন। জিপিএস ফিড সংযুক্ত না হওয়া পর্যন্ত এখানকার বাসগুলো আসল নয়।", liveMapBtn: "লাইভ ম্যাপ খুলুন", liveNone: "এই রুটে এখন কোনো বাস চলছে না।", liveAt: "{s}-এ", liveBw: "{a} ও {b}-এর মাঝে", liveEnd: "{s}-এ পৌঁছেছে", liveCount: "{n}টি সক্রিয়", liveBus: "বাস", cbH: "অভিযোগ বক্স", cbP: "পরিবহন সেবা নিয়ে সমস্যা, পরামর্শ বা ধন্যবাদ জানান।", cbSideH: "আপনার মতামত গুরুত্বপূর্ণ", cbSideP: "কী ভালো চলছে আর কী চলছে না জানান, যাতে সেবা সবার জন্য আরও ভালো হয়।", cbTip1: "নির্দিষ্ট করে লিখুন: রুট, বাস ও সময় উল্লেখ করুন।", cbTip2: "ভদ্রভাবে ও সৎভাবে লিখুন।", cbTip3: "সঠিক স্টুডেন্ট আইডি দিন, যাতে যোগাযোগ করা যায়।", cbId: "স্টুডেন্ট আইডি", cbIdPh: "যেমন: 221-15-1234", cbDept: "বিভাগ", cbDeptPh: "যেমন: CSE", cbType: "ধরন", cbT1: "অভিযোগ", cbT2: "পরামর্শ", cbT3: "প্রশংসা", cbMsg: "আপনার অভিযোগ বা মতামত", cbMsgPh: "এখানে লিখুন…", cbSend: "জমা দিন", cbSending: "পাঠানো হচ্ছে…", cbOk: "ধন্যবাদ! আপনার বার্তা জমা হয়েছে।", cbErr: "দুঃখিত, কিছু একটা ভুল হয়েছে। আবার চেষ্টা করুন।", cbMail: "আপনার ইমেইল অ্যাপ খুলবে। সেখানে সেন্ড চাপুন।", cbPreview: "অভিযোগ বক্স এখনও সংযুক্ত নয়, তাই কিছু পাঠানো হয়নি।", ab1: "ধানমন্ডি ট্রান্সপোর্ট কমিউনিটি ডিআইইউ শিক্ষার্থী ও বিশ্ববিদ্যালয় পরিবারের একটি কমিউনিটি, যার লক্ষ্য পরিবহন তথ্য সহজে পাওয়া।", ab2: "এই ওয়েবসাইটে বাসের সময়সূচি, রুট, নোটিশ ও হালনাগাদ এক জায়গায় থাকে। বিশ্ববিদ্যালয় নিশ্চিত না করা পর্যন্ত এটি অফিসিয়াল ওয়েবসাইট নয়।",
+                coH: "যোগাযোগ ও প্রয়োজনীয় লিংক", coP: "নিচের যেকোনো মাধ্যমে ট্রান্সপোর্ট কমিউনিটির সাথে যোগাযোগ করুন।", coPhone: "পরিবহন অফিসের ফোন", coMail: "অফিসিয়াল ইমেইল", coLinks: "বিশ্ববিদ্যালয়ের লিংক", coPending: "যোগ করা হবে",
                 disc: "“নমুনা” চিহ্নিত সময়সূচি, রুট ও নোটিশ শুধু প্লেসহোল্ডার, অফিসিয়াল তথ্য নয়।",
                 cats: { general: "সাধারণ ঘোষণা", schedule: "সময়সূচি হালনাগাদ", route: "রুট পরিবর্তন", holiday: "ছুটির নোটিশ", emergency: "জরুরি নোটিশ", info: "গুরুত্বপূর্ণ তথ্য" },
                 dayN: { sat: "শনিবার", sun: "রবিবার", mon: "সোমবার", tue: "মঙ্গলবার", wed: "বুধবার", thu: "বৃহস্পতিবার", fri: "শুক্রবার" }, urgent: "জরুরি", important: "গুরুত্বপূর্ণ", sampleTag: "নমুনা"
@@ -1367,9 +2791,9 @@
             { route: "r1r", dep: "13:30", days: WK }, { route: "r1r", dep: "16:20", days: WK }, { route: "r1r", dep: "18:00", days: WK }, { route: "r1r", dep: "11:20", days: FR }, { route: "r1r", dep: "16:20", days: FR },
             { route: "r2r", dep: "11:00", days: WK }];
         const NOTICES = [
-            { id: 1, date: "2026-11-01", cat: "schedule", level: "important", title: { en: "Sample: schedule update notice", bn: "নমুনা: সময়সূচি হালনাগাদ নোটিশ" }, body: { en: "This is a sample notice showing how an official update will look, including a PDF.", bn: "এটি একটি নমুনা নোটিশ, যেখানে অফিসিয়াল হালনাগাদ ও PDF কেমন দেখাবে তা দেখানো হয়েছে।" }, pdf: "notices/sample-notice.pdf", pdfTitle: "sample-notice.pdf" },
-            { id: 2, date: "2026-10-20", cat: "general", level: "", title: { en: "Sample: general announcement", bn: "নমুনা: সাধারণ ঘোষণা" }, body: { en: "Sample announcement without an attached PDF.", bn: "PDF ছাড়া একটি নমুনা ঘোষণা।" }, pdf: null },
-            { id: 3, date: "2026-10-05", cat: "emergency", level: "urgent", title: { en: "Sample: emergency notice", bn: "নমুনা: জরুরি নোটিশ" }, body: { en: "Sample of how urgent notices are highlighted.", bn: "জরুরি নোটিশ কীভাবে হাইলাইট হবে তার নমুনা।" }, pdf: null }];
+            { id: 1, date: "2026-11-01", cat: "schedule", level: "important", title: { en: "Sample: schedule update notice", bn: "নমুনা: সময়সূচি হালনাগাদ নোটিশ" }, body: { en: "This is a sample notice showing how an official update will look, including a PDF.", bn: "এটি একটি নমুনা নোটিশ, যেখানে অফিসিয়াল হালনাগাদ ও PDF কেমন দেখাবে তা দেখানো হয়েছে।" }, pdf: "routine.pdf", pdfTitle: "sample-notice.pdf" },
+            { id: 2, date: "2026-10-20", cat: "general", level: "", title: { en: "Sample: general announcement", bn: "নমুনা: সাধারণ ঘোষণা" }, body: { en: "Sample announcement without an attached PDF.", bn: "PDF ছাড়া একটি নমুনা ঘোষণা।" }, pdf:"general.pdf" },
+            { id: 3, date: "2026-10-05", cat: "emergency", level: "urgent", title: { en: "Sample: emergency notice", bn: "নমুনা: জরুরি নোটিশ" }, body: { en: "Sample of how urgent notices are highlighted.", bn: "জরুরি নোটিশ কীভাবে হাইলাইট হবে তার নমুনা।" }, pdf:"general.pdf" }];
 
         /* ---- State & helpers ---- */
         let lang = load("dtc-lang", "en"), theme = load("dtc-theme", "light"), cat = "all", showAll = false;
@@ -1466,44 +2890,215 @@
         }
 
 
-        /* ---- Exam schedule (sample) ---- */
+        /* ---- Exam timings (sample): edit the slots here ---- */
+        const OUT = { en: "Dhanmondi to DSC", bn: "ধানমন্ডি থেকে DSC" }, RET = { en: "DSC to Dhanmondi", bn: "DSC থেকে ধানমন্ডি" };
+        const EXSLOTS = [
+            { dir: "out", label: OUT, time: "07:00" }, { dir: "out", label: OUT, time: "10:00" }, { dir: "out", label: OUT, time: "12:00" },
+            { dir: "ret", label: RET, time: "10:50" }, { dir: "ret", label: RET, time: "13:30" }, { dir: "ret", label: RET, time: "16:20" }, { dir: "ret", label: RET, time: "18:10" }];
         const EXAMS = [
-            { type: "mid", title: { en: "Sample Midterm Exam: Day 1", bn: "নমুনা মিডটার্ম পরীক্ষা: ১ম দিন" }, date: "2026-11-14", start: "09:00", end: "11:00", route: "r1", bus: "07:30" },
-            { type: "mid", title: { en: "Sample Midterm Exam: Day 2", bn: "নমুনা মিডটার্ম পরীক্ষা: ২য় দিন" }, date: "2026-11-15", start: "11:30", end: "13:30", route: "r1", bus: "09:30" },
-            { type: "final", title: { en: "Sample Final Exam: Day 1", bn: "নমুনা ফাইনাল পরীক্ষা: ১ম দিন" }, date: "2026-12-20", start: "09:00", end: "12:00", route: "r1", bus: "07:30" },
-            { type: "final", title: { en: "Sample Final Exam: Day 2", bn: "নমুনা ফাইনাল পরীক্ষা: ২য় দিন" }, date: "2026-12-22", start: "14:00", end: "17:00", route: "r1r", bus: "12:30" }];
+            { type: "mid", title: { en: "Midterm Exam", bn: "মিডটার্ম পরীক্ষা" }, slots: EXSLOTS },
+            { type: "final", title: { en: "Final Exam", bn: "ফাইনাল পরীক্ষা" }, slots: EXSLOTS }];
         let exCat = "all";
         function renderExams() {
             const tabs = $("#exTabs"), box = $("#exList"); tabs.innerHTML = ""; box.innerHTML = "";
             [["all", t("exAll")], ["mid", t("exMid")], ["final", t("exFinal")]].forEach(([k, n]) => { const x = el("button", "chip", n); x.type = "button"; x.setAttribute("aria-pressed", k === exCat); x.onclick = () => { exCat = k; renderExams() }; tabs.append(x) });
-            const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Dhaka" }).format(new Date());
-            EXAMS.filter(x => exCat === "all" || x.type === exCat).sort((a, b) => a.date.localeCompare(b.date)).forEach(x => {
-                const r = ROUTES.find(y => y.id === x.route), past = x.date < today, c = el("article", "card ex" + (past ? " past" : ""));
-                const mon = new Intl.DateTimeFormat(lang === "bn" ? "bn-BD" : "en-GB", { month: "short", timeZone: "Asia/Dhaka" }).format(new Date(x.date + "T00:00:00+06:00"));
-                c.innerHTML = `<div class="d">${nf(String(+x.date.slice(8)))}<small>${mon}</small></div><div><h3>${esc(L(x.title))}</h3>
-<div class="info meta"><span>${fmtD(x.date)}</span><span>${fmtT(x.start)} – ${fmtT(x.end)}</span><span>${t("exBus")}: ${fmtT(x.bus)} (${esc(L(r.name))})</span></div>
-<span class="tag">${past ? t("exPast") : t("exUp")}</span> <span class="tag">${t("sampleTag")}</span></div>`; box.append(c)
+            EXAMS.filter(x => exCat === "all" || x.type === exCat).forEach(x => {
+                const c = el("article", "card exc" + (x.type === "final" ? " fin" : ""));
+                c.innerHTML = `<div class="exh"><h3>${esc(L(x.title))}</h3><span class="tag">${t("sampleTag")}</span></div>
+<ul class="exs">${x.slots.map(s => `<li class="${s.dir}"><span>${esc(L(s.label))}</span><b>${fmtT(s.time)}</b></li>`).join("")}</ul>`; box.append(c)
             })
         }
 
         /* ---- Gallery ---- */
-        const GALLERY = []; /* add official photos: {src:"photos/a.jpg",cap:{en:"…",bn:"…"}} */
+        const GALLERY = [
+    { src: "dhanmondi.jpeg", cat: "transport", cap: { en: "Morning bus at DSC", bn: "ডেফোডিলে সকালের বাস" } },
+    { src: "transport.jpeg", cat: "transport", cap: { en: "Buses at DSC campus",     bn: "DSC ক্যাম্পাসে বাস" } },
+    { src: "prize.jpeg", cat: "meetup", cap: { en: "Community Event", bn: "ট্রান্সপোর্ট কমিউনিটি ইভেন্ট" } }
+]; /* add official photos: {src:"photos/a.jpg",cap:{en:"…",bn:"…"}} */
         let userPics = [], lbi = 0;
         function renderGallery() {
             const g = $("#gal"); g.innerHTML = ""; const all = [...GALLERY, ...userPics];
             if (!all.length) { for (let i = 0; i < 6; i++)g.append(el("div", "ph", t("gPh"))); g.insertAdjacentElement("beforebegin", $("#gEmpty") || Object.assign(el("p", "meta", t("gEmpty")), { id: "gEmpty" })); $("#gEmpty").textContent = t("gEmpty"); return }
             $("#gEmpty")?.remove();
             all.forEach((p, i) => {
-                const b = el("button", ""); b.type = "button"; const cap = p.cap ? L(p.cap) : ""; b.setAttribute("aria-label", cap || "Photo " + (i + 1));
-                b.innerHTML = `<img src="${p.src}" alt="${esc(cap)}" loading="lazy">${cap ? `<figcaption>${esc(cap)}</figcaption>` : ""}`; b.onclick = () => openLb(i); g.append(b)
+                const b = el("button", ""); b.type = "button"; b.style.setProperty("--i", i); const cap = p.cap ? L(p.cap) : ""; b.setAttribute("aria-label", cap || "Photo " + (i + 1));
+                b.innerHTML = `<img src="${p.src}" alt="${esc(cap)}" loading="lazy">${cap ? `<figcaption>${esc(cap)}</figcaption>` : ""}`; b.onclick = () => openLb(i, all); g.append(b)
             })
         }
-        function openLb(i) {
-            const all = [...GALLERY, ...userPics]; if (!all.length) return; lbi = (i + all.length) % all.length; const p = all[lbi];
-            $("#lbI").src = p.src; $("#lbI").alt = p.cap ? L(p.cap) : ""; $("#lbC").textContent = p.cap ? L(p.cap) : ""; if (!$("#lb").open) $("#lb").showModal()
+        let lbList = [];
+        function openLb(i, list) {
+            if (list) lbList = list; const all = lbList; if (!all.length) return; lbi = (i + all.length) % all.length; const p = all[lbi], cap = p.cap ? L(p.cap) : "";
+            $("#lbI").src = p.src; $("#lbI").alt = cap; $("#lbC").textContent = (cap ? cap + " · " : "") + nf(`${lbi + 1}/${all.length}`); if (!$("#lb").open) $("#lb").showModal()
         }
+        addEventListener("keydown", e => { if (!$("#lb").open) return; if (e.key === "ArrowRight") openLb(lbi + 1); if (e.key === "ArrowLeft") openLb(lbi - 1) });
+
+        /* ---- Gallery popup ("See more photos") ---- */
+        /* Featured photos live in GALLERY (shown on the page). Put every extra photo in GALLERY_MORE.
+           cat = "transport" | "meetup" | "other". The popup shows GALLERY + GALLERY_MORE together. e.g.
+           { src: "photos/meetup1.jpg", cat: "meetup", cap: { en: "Community meet-up", bn: "কমিউনিটি মিটআপ" } } */
+        const GALLERY_MORE = [
+            { src: "dtc.png", cat: "meetup", cap: { en: "Community meet-up", bn: "কমিউনিটি মিটআপ" } },
+  { src: "community.jpeg",    cat: "transport", cap: { en: "Dhanmondi Bus", bn: "ধানমন্ডি বাস" } },
+  { src: "certificate.jpeg",    cat: "meetup", cap: { en: "Community meet-up", bn: "কমিউনিটি মিটআপ" } },
+  { src: "advisor.jpeg",    cat: "meetup", cap: { en: "Community meet-up", bn: "কমিউনিটি মিটআপ" } },
+  { src: "president.jpeg",    cat: "meetup", cap: { en: "Community meet-up", bn: "কমিউনিটি মিটআপ" } },
+  { src: "ramzan.jpeg",   cat: "other" }
+        ]; 
+        let gmCat = "all";
+        const gmAll = () => [...GALLERY, ...GALLERY_MORE], gmKey = k => "gm" + k[0].toUpperCase() + k.slice(1);
+        function renderGM() {
+            const all = gmAll(), tabs = $("#gmTabs"), grid = $("#gmGrid"); tabs.innerHTML = ""; grid.innerHTML = "";
+            $("#gmCount").textContent = nf(String(all.length)); $("#gmOpen").style.display = all.length ? "" : "none";
+            [["all", t("gmAll"), all.length], ...["transport", "meetup", "other"].map(k => [k, t(gmKey(k)), all.filter(p => (p.cat || "other") === k).length])].forEach(([k, n, c]) => {
+                if (k !== "all" && !c) return;
+                const x = el("button", "chip", `${esc(n)} (${nf(String(c))})`); x.type = "button"; x.setAttribute("aria-pressed", k === gmCat); x.onclick = () => { gmCat = k; renderGM() }; tabs.append(x)
+            });
+            const list = all.filter(p => gmCat === "all" || (p.cat || "other") === gmCat);
+            if (!list.length) { grid.append(el("p", "gmempty", t("gmEmpty"))); return }
+            list.forEach((p, i) => {
+                const cap = p.cap ? L(p.cap) : "", b = el("button", "gi"); b.type = "button"; b.style.setProperty("--i", i); b.setAttribute("aria-label", cap || "Photo " + (i + 1));
+                b.innerHTML = `<img src="${esc(p.src)}" alt="${esc(cap)}" loading="lazy"><span class="gc">${esc(t(gmKey(p.cat || "other")))}</span>${cap ? `<figcaption>${esc(cap)}</figcaption>` : ""}`;
+                b.onclick = () => openLb(i, list); grid.append(b)
+            })
+        }
+        $("#gmOpen").onclick = () => { gmCat = "all"; renderGM(); $("#gm").showModal(); document.body.style.overflow = "hidden"; $("#gmGrid").parentElement.scrollTop = 0 };
+        $("#gmX").onclick = () => $("#gm").close();
+        $("#gm").addEventListener("close", () => { document.body.style.overflow = "" });
+        $("#gm").addEventListener("click", e => { if (e.target === e.currentTarget) e.currentTarget.close() });
         $("#lbP").onclick = () => openLb(lbi - 1); $("#lbN").onclick = () => openLb(lbi + 1); $("#lbX").onclick = () => $("#lb").close();
         $("#gFile").addEventListener("change", e => { [...e.target.files].forEach(f => userPics.push({ src: URL.createObjectURL(f), cap: { en: f.name, bn: f.name } })); e.target.value = ""; renderGallery() });
+
+        /* ---- Complain box ---- */
+        /* Connect the form: paste a Formspree/Google-Apps-Script URL below, OR an email address. */
+        const COMPLAIN_ENDPOINT = "https://formsubmit.co/ajax/dtcdiu@gmail.com";   /* e.g. "https://formspree.io/f/xxxxxxx" */
+        const COMPLAIN_EMAIL = "";      /* e.g. "transport@example.com" (opens the visitor's email app) */
+        let cbKey = "";
+        function cbShow(key, kind) { cbKey = key; const s = $("#cbStatus"); s.className = "cbst" + (kind ? " " + kind : ""); s.textContent = key ? t(key) : "" }
+        function cbRefresh() { if (cbKey) $("#cbStatus").textContent = t(cbKey); $("#cbCount").textContent = nf(`${$("#cbMsg").value.length}/1000`) }
+        $("#cbMsg").addEventListener("input", cbRefresh);
+        $("#cbForm").addEventListener("submit", async e => {
+            e.preventDefault(); const f = e.currentTarget, btn = $("#cbBtn");
+            const d = Object.fromEntries(new FormData(f)); if (d.website) return; delete d.website; d.submittedAt = new Date().toISOString();
+            if (COMPLAIN_ENDPOINT) {
+                btn.disabled = true; cbShow("cbSending", "");
+                try {
+                    const r = await fetch(COMPLAIN_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(d) });
+                    if (!r.ok) throw new Error(r.status); f.reset(); cbShow("cbOk", "ok")
+                } catch (err) { cbShow("cbErr", "err") } finally { btn.disabled = false; cbRefresh() }
+            } else if (COMPLAIN_EMAIL) {
+                const body = `Student ID: ${d.studentId}\nDepartment: ${d.department}\nType: ${d.type}\n\n${d.message}`;
+                location.href = `mailto:${COMPLAIN_EMAIL}?subject=${encodeURIComponent("Transport " + d.type + " - " + d.studentId)}&body=${encodeURIComponent(body)}`; cbShow("cbMail", "ok")
+            } else cbShow("cbPreview", "")
+        });
+
+        /* ---- Live bus location ---- */
+        /* To show REAL buses, set LIVE_ENDPOINT to a URL that returns JSON like:
+           {"buses":[{"id":"b1","no":1,"route":"r1","stop":"asad","progress":0.4,"updated":"2026-11-08T09:30:00+06:00"}]}
+           route    = r1 | r2 | r1r | r2r
+           stop     = last stop the bus passed: d27, asad, college, shamoly, kolyanpur, tech, mazar, bera, biru, dsc
+           progress = 0 to 1, how far it is toward the next stop
+           Leave it empty to show a clearly labelled sample simulation. */
+        const LIVE_ENDPOINT = "";
+        const LIVE_TRACKER = false;   /* false = hide the route-by-route bus tracking cards; set to true when real tracking is ready */
+        const LIVE_MAP_URL = "";   /* optional: link to a live map (e.g. Google Maps shared location / tracker page) */
+        const fill = (s, o) => s.replace(/\{(\w+)\}/g, (_, k) => o[k]);
+        let live = { buses: [], at: Date.now(), ok: true }, lvRoute = "all", lvSig = "";
+        const DEMO = [{ id: "b1", no: 1, route: "r1", i: 1, p: .3 }, { id: "b2", no: 2, route: "r1", i: 6, p: .6 }, { id: "b3", no: 3, route: "r2", i: 1, p: .2 }, { id: "b4", no: 4, route: "r1r", i: 3, p: .5 }, { id: "b5", no: 5, route: "r2r", i: 0, p: .1 }].map(b => ({ ...b, dw: 0 }));
+        if (!LIVE_ENDPOINT) live.buses = DEMO;
+        const lvName = b => b.label || `${t("liveBus")} ${nf(String(b.no))}`;
+        function lvStatus(b, r) {
+            const a = L(r.stops[b.i]);
+            return b.i >= r.stops.length - 1 ? fill(t("liveEnd"), { s: a }) : b.p < .15 ? fill(t("liveAt"), { s: a }) : fill(t("liveBw"), { a, b: L(r.stops[b.i + 1]) })
+        }
+        function demoStep() {
+            DEMO.forEach(b => {
+                const n = ROUTES.find(r => r.id === b.route).stops.length;
+                if (b.i >= n - 1) { if (++b.dw > 3) { b.i = 0; b.p = 0; b.dw = 0 } return }
+                b.p += .06; if (b.p >= 1) { b.p = 0; b.i++ }
+            }); live.at = Date.now(); refreshLive()
+        }
+        function normFeed(j) {
+            return (j.buses || []).map(b => {
+                const r = ROUTES.find(x => x.id === b.route); if (!r) return null;
+                const i = typeof b.stop === "number" ? b.stop : r.stops.findIndex(x => x === S[b.stop]); if (i < 0) return null;
+                return { id: String(b.id), no: b.no ?? b.id, label: b.label, route: b.route, i: Math.min(i, r.stops.length - 1), p: Math.max(0, Math.min(.99, +b.progress || 0)) }
+            }).filter(Boolean)
+        }
+        async function pollLive() {
+            try {
+                const r = await fetch(LIVE_ENDPOINT, { cache: "no-store" }); if (!r.ok) throw new Error(r.status);
+                live.buses = normFeed(await r.json()); live.at = Date.now(); live.ok = true
+            } catch (e) { live.ok = false }
+            refreshLive()
+        }
+        function renderLive() {
+            const tabs = $("#lvTabs"), box = $("#lvList"); tabs.innerHTML = ""; box.innerHTML = "";
+            [["all", t("allRoutes")], ...ROUTES.map(r => [r.id, L(r.name).split(":")[0]])].forEach(([k, n]) => {
+                const x = el("button", "chip", esc(n)); x.type = "button"; x.setAttribute("aria-pressed", k === lvRoute); x.onclick = () => { lvRoute = k; renderLive() }; tabs.append(x)
+            });
+            const busSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="14" rx="3"/><path d="M4 11h16M7 17v3M17 17v3"/><circle cx="8" cy="14" r=".7"/><circle cx="16" cy="14" r=".7"/></svg>';
+            if (LIVE_TRACKER) ROUTES.filter(r => lvRoute === "all" || r.id === lvRoute).forEach(r => {
+                const bs = live.buses.filter(b => b.route === r.id), c = el("article", "card lvc"); c.dataset.r = r.id;
+                c.innerHTML = `<div class="lvh"><h3>${esc(L(r.name))}</h3><span class="tag">${fill(t("liveCount"), { n: nf(String(bs.length)) })}</span></div>
+<div class="lvb">${bs.map(b => `<div class="bp" data-id="${esc(b.id)}"><span class="bn">${nf(String(b.no))}</span><span><strong>${esc(lvName(b))}</strong><small></small></span></div>`).join("") || `<p class="meta">${t("liveNone")}</p>`}</div>
+<div class="lvt">${r.stops.map(x => `<div class="lvs"><span class="nm">${esc(L(x))}</span><span class="at"></span></div>`).join("")}${bs.map(b => `<span class="lvm" data-id="${esc(b.id)}" title="${esc(lvName(b))}">${busSvg}<i>${nf(String(b.no))}</i></span>`).join("")}</div>`;
+                box.append(c)
+            });
+            lvSig = lvKey(); updateLive()
+        }
+        const lvKey = () => live.buses.map(b => b.id + b.route).join("|") + "#" + lvRoute + "#" + lang;
+        function refreshLive() { lvKey() !== lvSig ? renderLive() : updateLive() }
+        function updateLive() {
+            const age = Math.max(0, Math.round((Date.now() - live.at) / 1000)), fresh = live.ok && age < 60;
+            $("#lvPill").classList.toggle("off", !fresh); $("#lvPillT").textContent = t(fresh ? "liveOn" : "liveOff");
+            $("#lvUpd").textContent = `${t("liveUpd")}: ` + (age < 5 ? t("liveJust") : age < 60 ? fill(t("liveSec"), { n: nf(String(age)) }) : fill(t("liveMin"), { n: nf(String(Math.floor(age / 60))) }));
+            $("#lvSample").style.display = LIVE_ENDPOINT ? "none" : ""; $("#lvMap").style.display = LIVE_MAP_URL ? "" : "none"; $("#lvMap").href = LIVE_MAP_URL || "#";
+            $$(".lvc").forEach(c => {
+                const r = ROUTES.find(x => x.id === c.dataset.r), rows = $$(".lvs", c), at = rows.map(() => []);
+                live.buses.filter(b => b.route === r.id).forEach(b => {
+                    const m = $(`.lvm[data-id="${CSS.escape(b.id)}"]`, c); if (m) m.style.setProperty("--p", b.i + b.p);
+                    const sm = $(`.bp[data-id="${CSS.escape(b.id)}"] small`, c); if (sm) sm.textContent = lvStatus(b, r);
+                    if (b.p < .15 || b.i >= r.stops.length - 1) at[b.i].push(lvName(b))
+                });
+                rows.forEach((row, i) => { $(".at", row).innerHTML = at[i].map(n => `<span class="ab">${esc(n)}</span>`).join(""); row.classList.toggle("has", at[i].length > 0) })
+            })
+        }
+        if (LIVE_ENDPOINT) { pollLive(); setInterval(pollLive, 10000) } else setInterval(demoStep, 2000);
+        setInterval(updateLive, 1000);
+
+        /* ---- Committee ---- */
+        /* Add real members here, e.g.
+           { name: { en: "Rahim Uddin", bn: "রহিম উদ্দিন" }, role: { en: "President", bn: "সভাপতি" }, photo: "photos/rahim.jpg" }
+           (photo is optional). While the list is empty, six placeholder cards are shown. */
+        const COMMITTEE = [
+            { name: { en: "Safat Anzum", bn: "সাফাত আনজুম" }, role: { en: "Advisor", bn: "উপদেষ্টা" }, photo: "leader.jpeg" },
+            { name: { en: "Bushra Jahan Bintu", bn: "বুশরা জাহান বিন্দু" }, role: { en: "President", bn: "সভাপতি" }, photo: "bushra.jpeg" },
+            { name: { en: "Noman Ibna Billal", bn: "নোমান ইবনে বিল্লাল" }, role: { en: "joint secretary", bn: "যুগ্ম সচিব" }, photo: "billal.jpeg" },
+            { name: { en: "Swakhar Biswas", bn: "স্বাখর বিস্বাস" }, role: { en: "Vice President", bn: "উপ-সভাপতি" }, photo: "s.jpeg" },
+            { name: { en: "Halimatus Sadia Mim", bn: "হালিমাতুস সাদিয়া মিম" }, role: { en: "Executive", bn: "কর্মকর্তা" }, photo: "mim.jpeg" },
+            { name: { en: "Mahmuda Talukdar", bn: "মাহমুদা তালুকদার" }, role: { en: "Executive", bn: "কর্মকর্তা" }, photo: "mahmuda.jpeg" }
+        ];
+        const cmIO = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); cmIO.unobserve(e.target) } }), { threshold: .15 }) : null;
+        function renderCommittee() {
+            const box = $("#cmList"), real = COMMITTEE.length > 0; box.innerHTML = "";
+            $("#cmNote").style.display = real ? "none" : "";
+            const user = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8" r="4.2"/><path d="M4 21c0-4.4 3.6-7.4 8-7.4s8 3 8 7.4z"/></svg>';
+            (real ? COMMITTEE : Array.from({ length: 6 }, () => ({ name: { en: T.en.cmName, bn: T.bn.cmName }, role: { en: T.en.cmRole, bn: T.bn.cmRole } }))).forEach((m, i) => {
+                const c = el("article", "card mem" + (real ? " real" : "")); c.style.setProperty("--i", i % 3);
+                c.innerHTML = `<div class="mav">${m.photo ? `<img src="${esc(m.photo)}" alt="${esc(L(m.name))}" loading="lazy">` : user}</div><h3>${esc(L(m.name))}</h3><span class="role">${esc(L(m.role))}</span>`;
+                box.append(c); cmIO ? cmIO.observe(c) : c.classList.add("in")
+            })
+        }
+
+        /* ---- Contact, social & WhatsApp ---- */
+        const INSTAGRAM_URL = "";   /* paste the Instagram page link here to show the Instagram button in the footer */
+        const WA_NUMBER = "8801934345187";
+        function waRefresh() {
+            const u = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(t("waMsg"))}`;
+            $("#wa").href = u; $("#coWa").href = u;
+            const ig = $("#igLink"); if (INSTAGRAM_URL) { ig.href = INSTAGRAM_URL; ig.style.display = "" }
+        }
+        setTimeout(() => { const w = $("#wa"); w.classList.add("peek"); setTimeout(() => w.classList.remove("peek"), 4500) }, 2500);
 
         /* ---- Language & theme ---- */
         function applyLang() {
@@ -1511,7 +3106,7 @@
             $$("[data-i18n]").forEach(e => e.textContent = t(e.dataset.i18n));
             $$("[data-i18n-ph]").forEach(e => e.placeholder = t(e.dataset.i18nPh));
             $("#lang").textContent = lang === "en" ? "বাং" : "EN"; $("#lang").setAttribute("aria-label", lang === "en" ? "বাংলায় দেখুন" : "Switch to English");
-            fillSelects(); renderSchedule(); renderRoutes(); renderCats(); renderNotices(); renderExams(); renderGallery(); tick()
+            fillSelects(); renderSchedule(); renderRoutes(); renderCats(); renderNotices(); renderExams(); renderGallery(); renderGM(); cbRefresh(); renderLive(); renderCommittee(); waRefresh(); tick()
         }
         function applyTheme() { document.documentElement.dataset.theme = theme; $("#theme").textContent = theme === "dark" ? "☀️" : "🌙" }
         $("#lang").onclick = () => { lang = lang === "en" ? "bn" : "en"; save("dtc-lang", lang); applyLang() };
@@ -1525,7 +3120,7 @@
         menu.onclick = () => { const o = links.classList.toggle("open"); menu.setAttribute("aria-expanded", o) };
         $$("#links a").forEach(a => a.addEventListener("click", () => { links.classList.remove("open"); menu.setAttribute("aria-expanded", false) }));
         $("#top").onclick = () => scrollTo({ top: 0 });
-        const secs = ["home", "schedule", "exams", "routes", "notices", "gallery", "about", "contact"].map(id => $("#" + id));
+        const secs = ["home", "schedule", "exams", "routes", "live", "notices", "gallery", "about", "committee", "complain", "contact"].map(id => $("#" + id));
         addEventListener("scroll", () => {
             $("#top").classList.toggle("show", scrollY > 500);
             let cur = "home"; secs.forEach(s => { if (s.getBoundingClientRect().top < 120) cur = s.id });
