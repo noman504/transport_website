@@ -2192,6 +2192,53 @@
             }
         }
 
+        .cmbn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.2rem 1.5rem;
+            padding: 2.3rem 2.4rem;
+            border-radius: 28px;
+            background: var(--frame);
+            color: var(--frame-ink)
+        }
+
+        .cmbn h3 {
+            font-size: clamp(1.4rem, 3.6vw, 2.1rem);
+            font-weight: 800
+        }
+
+        .cmbn p {
+            font-size: .95rem
+        }
+
+        main>section#members {
+            display: none
+        }
+
+        body.cmview main>section {
+            display: none
+        }
+
+        body.cmview main>section#members {
+            display: block;
+            min-height: 65vh;
+            animation: rise .5s cubic-bezier(.2, .7, .2, 1) both
+        }
+
+        .cmback {
+            display: inline-block;
+            margin-bottom: .6rem;
+            font-weight: 700;
+            font-size: .95rem;
+            text-decoration: none
+        }
+
+        .cmback:hover {
+            text-decoration: underline
+        }
+
         .cact {
             display: flex;
             flex-wrap: wrap;
@@ -2609,6 +2656,19 @@
 
         <section id="committee" style="background:var(--surface)">
             <div class="wrap">
+                <div class="cmbn">
+                    <div>
+                        <h3 data-i18n="cmBanH"></h3>
+                        <p data-i18n="cmBanP"></p>
+                    </div>
+                    <a class="btn g" href="#members" data-i18n="cmVisit"></a>
+                </div>
+            </div>
+        </section>
+
+        <section id="members">
+            <div class="wrap">
+                <a class="cmback" href="#home">← <span data-i18n="cmBack"></span></a>
                 <h2 data-i18n="cmH"></h2>
                 <p class="lead" data-i18n="cmP"></p>
                 <span class="sample" id="cmNote" data-i18n="cmNote"></span>
@@ -2772,8 +2832,11 @@
                 disc: "“নমুনা” চিহ্নিত সময়সূচি, রুট ও নোটিশ শুধু প্লেসহোল্ডার, অফিসিয়াল তথ্য নয়।",
                 cats: { general: "সাধারণ ঘোষণা", schedule: "সময়সূচি হালনাগাদ", route: "রুট পরিবর্তন", holiday: "ছুটির নোটিশ", emergency: "জরুরি নোটিশ", info: "গুরুত্বপূর্ণ তথ্য" },
                 dayN: { sat: "শনিবার", sun: "রবিবার", mon: "সোমবার", tue: "মঙ্গলবার", wed: "বুধবার", thu: "বৃহস্পতিবার", fri: "শুক্রবার" }, urgent: "জরুরি", important: "গুরুত্বপূর্ণ", sampleTag: "নমুনা"
+            
             }
         };
+        Object.assign(T.en, { cmBanH: "Meet the people behind the community", cmBanP: "See the committee members.", cmVisit: "Visit Committee →", cmBack: "Back to home" });
+Object.assign(T.bn, { cmBanH: "কমিউনিটির মানুষগুলোর সাথে পরিচিত হোন", cmBanP: "কমিটির সদস্যদের দেখুন।", cmVisit: "কমিটি দেখুন →", cmBack: "হোমে ফিরে যান" });
 
         /* ---- Data (edit here) ---- */
         const S = { d27: { en: "Dhanmondi 27", bn: "ধানমন্ডি ২৭" }, asad: { en: "Asad Gate", bn: "আসাদ গেট" }, college: { en: "College Gate", bn: "কলেজ গেট" }, shamoly: { en: "Shamoly", bn: "শ্যামলী" }, kolyanpur: { en: "Kolyanpur", bn: "কল্যাণপুর" }, tech: { en: "Technical", bn: "টেকনিক্যাল" }, mazar: { en: "Mazar Road", bn: "মাজার রোড" }, bera: { en: "Beibadh", bn: "বেড়িবাঁধ" }, biru: { en: "Biruliya", bn: "বিরুলিয়া" }, dsc: { en: "DSC", bn: "DSC" } };
@@ -3126,6 +3189,18 @@
             let cur = "home"; secs.forEach(s => { if (s.getBoundingClientRect().top < 120) cur = s.id });
             $$("#links a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + cur))
         }, { passive: true });
+
+        let cmOn = false;
+        function cmRoute() {
+            const on = location.hash === "#members";
+            document.body.classList.toggle("cmview", on);
+            if (on) { scrollTo({ top: 0, behavior: "instant" }); cmMark() }
+            else if (cmOn) { const id = location.hash.slice(1), t0 = id && document.getElementById(id); requestAnimationFrame(() => t0 ? t0.scrollIntoView() : scrollTo({ top: 0, behavior: "instant" })) }
+            cmOn = on
+        }
+        function cmMark() { $$("#links a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#committee")) }
+        addEventListener("scroll", () => { if (document.body.classList.contains("cmview")) cmMark() }, { passive: true });
+        addEventListener("hashchange", cmRoute); cmRoute();
 
         /* logo fallback: hide broken images gracefully */
         $$("img").forEach(i => i.addEventListener("error", () => { i.style.visibility = "hidden" }));
